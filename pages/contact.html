@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us - Sapphire Crown</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        color: white;
+        scroll-behavior: smooth;
+        background: #000;
+      }
+
+      /* HERO SECTION */
+      .hero-section {
+        position: relative;
+        height: 100vh;
+        width: 100%;
+        overflow: hidden;
+      }
+      .hero-caption {
+        position: relative;
+        z-index: 1;
+        height: calc(100vh - 60px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .hero-caption h1 {
+        font-size: 3rem;
+        margin-bottom: 1px;
+      }
+
+      .hero-caption p {
+        font-family: "Poppins", sans-serif;
+        font-weight: lighter;
+        font-size: 1.2rem;
+        max-width: 600px;
+      }
+
+      .hero-section {
+        position: relative;
+        height: 100vh;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      .slideshow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -2;
+      }
+
+      .slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        transition: opacity 1.5s ease-in-out;
+      }
+
+      .slide.active {
+        opacity: 1;
+      }
+
+      .video-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: -1;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+        background: rgba(0, 0, 0, 0.85);
+        color: #fff;
+        position: relative;
+        z-index: 10;
+        font-family: "Poppins", sans-serif; /* Ensure header texts use Poppins */
+      }
+
+      .logo-container {
+        font-family: "Poppins", sans-serif;
+        font-weight: lighter;
+        display: flex;
+        align-items: center;
+        margin-right: 350px;
+      }
+
+      .logo {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        margin-right: 12px;
+      }
+
+      .logo-container img.logo {
+        width: 50px;
+        height: auto;
+      }
+      .logo-container h3 {
+        font-size: 1.2rem;
+        color: #ffffff;
+        font-family: "Poppins", sans-serif;
+      }
+
+      /* NAVIGATION */
+      .navigation {
+        flex: 1;
+        margin-left: 50px;
+      }
+      .nav-links {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        gap: 20px;
+      }
+      .nav-links li {
+        margin-left: 15px;
+        margin-right: 0;
+        position: relative;
+      }
+      .nav-links li a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: 500;
+        transition: color 0.3s ease;
+        font-family: "Poppins", sans-serif;
+      }
+      .nav-links li a:hover {
+        color: #64d36d;
+      }
+      /* Dropdown */
+      .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: rgba(0, 0, 0, 0.95);
+        min-width: 180px;
+        list-style: none;
+        padding: 10px 0;
+        border-radius: 5px;
+      }
+      .dropdown:hover .dropdown-menu {
+        display: block;
+      }
+      .dropdown-menu li a {
+        display: block;
+        padding: 10px 15px;
+      }
+
+      /* Burger */
+      .burger {
+        display: none;
+        font-size: 1.8rem;
+        cursor: pointer;
+        color: #fff;
+      }
+
+      /* MOBILE MENU */
+      .menu-panel {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 250px;
+        height: 100vh;
+        background: #111;
+        padding: 40px 20px;
+        transition: right 0.3s ease;
+        z-index: 999;
+      }
+      .menu-panel.open {
+        right: 0;
+      }
+      .close-btn {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 2rem;
+        background: none;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+      }
+      .menu-panel ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .menu-panel li {
+        margin-bottom: 15px;
+      }
+      .menu-panel a {
+        text-decoration: none;
+        color: #fff;
+      }
+      .menu-panel ul li a {
+        display: block;
+        padding: 12px 20px;
+        text-decoration: none;
+        color: #fff; /* normal color */
+        transition: color 0.3s ease, background-color 0.3s ease;
+      }
+
+      .menu-panel ul li a:hover {
+        color: #64d36d; /* match nav-links hover */
+        background-color: rgba(255, 255, 255, 0.1); /* subtle bg highlight */
+      }
+
+      /* CONTACT SECTION */
+      .contact-section {
+        font-family: "Poppins", sans-serif;
+        padding: 80px 5%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        background: #292929;
+        border-radius: 12px;
+        margin: 40px auto;
+        max-width: 1200px;
+      }
+
+      .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .contact-info h2 {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        color: #8b98d3;
+      }
+      .contact-info p,
+      .contact-info a {
+        color: #ccc;
+        font-size: 1rem;
+        margin: 5px 0;
+      }
+      .contact-info i {
+        margin-right: 10px;
+        color: #8b98d3;
+      }
+      .social-icons {
+        margin-top: 15px;
+      }
+      .social-icons a {
+        color: #fff;
+        margin-right: 15px;
+        font-size: 1.3rem;
+        transition: color 0.3s;
+      }
+      .social-icons a:hover {
+        color: #8b98d3;
+      }
+
+      /* FORM */
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+      input,
+      textarea {
+        border-color: #8b98d3;
+        background-color: #131313;
+        color: #ffffff;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+      }
+      textarea {
+        resize: none;
+        min-height: 120px;
+      }
+      button {
+        background: #8b98d3;
+        color: #111;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background 0.3s;
+      }
+      button:hover {
+        background: #000000;
+        color: #8b98d3;
+      }
+
+      /* Footer */
+      footer {
+        background: #0d0d0d;
+        color: #ddd;
+        font-family: "serif";
+        padding: 50px 20px 20px;
+      }
+
+      .footer-container {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 40px;
+        max-width: 1200px;
+        margin: auto;
+      }
+
+      /* Logo & Contact */
+      .footer-logo img {
+        width: 140px;
+        margin-bottom: 10px;
+      }
+
+      .footer-logo h2 {
+        font-size: 20px;
+        margin: 10px 0;
+        font-weight: 600;
+      }
+
+      .footer-logo p {
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .footer-logo a {
+        color: #ffffff;
+        text-decoration: none;
+      }
+
+      /* Section Titles */
+      .footer-container h3 {
+        font-size: 16px;
+        margin-bottom: 15px;
+        color: #fff;
+      }
+
+      .footer-container ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .footer-container ul li {
+        margin: 8px 0;
+      }
+
+      .footer-container ul li a {
+        color: #bbb;
+        text-decoration: none;
+        transition: 0.3s;
+      }
+
+      .footer-container ul li a:hover {
+        color: #fcb900;
+      }
+
+      /* Newsletter */
+      .newsletter p {
+        font-size: 14px;
+        margin-bottom: 10px;
+        color: #ddd;
+      }
+
+      .newsletter input[type="email"] {
+        padding: 10px;
+        border: none;
+        outline: none;
+        width: 250px;
+        background: #222;
+        color: #fff;
+      }
+
+      .newsletter button {
+        padding: 10px 15px;
+        background: #000000;
+        width: 150px;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .newsletter button:hover {
+        background: #fcb900;
+        color: #111;
+      }
+
+      /* Social Icons */
+      .social-icons {
+        margin-top: 15px;
+      }
+
+      .social-icons a {
+        display: inline-block;
+        margin-right: 12px;
+        font-size: 15px;
+        color: #ddd;
+        transition: 0.3s;
+      }
+
+      .social-icons a:hover {
+        color: #fcb900;
+      }
+
+      /* Bottom Bar */
+      .footer-bottom {
+        border-top: 1px solid #333;
+        text-align: center;
+        padding: 15px;
+        font-size: 13px;
+        margin-top: 30px;
+        color: #aaa;
+      }
+
+      /* RESPONSIVE */
+      @media screen and (max-width: 768px) {
+        .contact-section {
+          grid-template-columns: 1fr;
+        }
+        .footer-container {
+          grid-template-columns: 1fr;
+        }
+        .hero-caption h1 {
+          font-size: 2rem;
+        }
+        .hero-caption p {
+          font-size: 1rem;
+        }
+      }
+
+      @media screen and (max-width: 855px) {
+        .logo-container {
+          margin-right: 0;
+        }
+        .logo-container h3 {
+          font-size: 1rem;
+        }
+        .logo-container img.logo {
+          width: 40px;
+          height: auto;
+        }
+        .nav-links {
+          display: none;
+        }
+        .burger {
+          display: block;
+        }
+      }
+
+      @media screen and (max-width: 1100px) {
+        .logo-container {
+          margin-right: 0;
+        }
+      }
+      /* Responsive Footer */
+      @media screen and (max-width: 1024px) {
+        .footer-container {
+          grid-template-columns: 1fr 1fr; /* 2 columns */
+          gap: 30px;
+        }
+      }
+
+      @media screen and (max-width: 768px) {
+        .footer-container {
+          grid-template-columns: 1fr; /* 1 column */
+          text-align: center;
+          align-items: center;
+        }
+
+        .footer-logo {
+          text-align: center;
+        }
+
+        .footer-container h3 {
+          margin-top: 20px;
+        }
+
+        .newsletter input[type="email"] {
+          width: 300px;
+          margin-bottom: 10px;
+          text-align: center;
+          align-items: center;
+        }
+
+        .newsletter button {
+          width: auto;
+          display: inline-block;
+        }
+
+        .social-icons {
+          text-align: center;
+          margin-top: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <section class="hero-section">
+      <div class="slideshow">
+        <div
+          class="slide active"
+          style="background-image: url('/assets/images/gallery7.png')"
+        ></div>
+        <div
+          class="slide"
+          style="background-image: url('/assets/images/freewifi.png')"
+        ></div>
+      </div>
+      <div class="video-overlay"></div>
+
+      <header>
+        <div class="logo-container">
+          <img class="logo" src="/assets/images/logo.png" alt="logo" />
+          <h3>Sapphire Crown</h3>
+        </div>
+        <nav class="navigation">
+          <ul class="nav-links">
+            <li><a href="/index.html">Home</a></li>
+            <li class="dropdown">
+              <a href="/pages/accomodation.html">Accommodation ▾</a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="/pages/accomodation.html#executive"
+                    >Executive Room</a
+                  >
+                </li>
+                <li>
+                  <a href="/pages/accomodation.html#luxury">Luxury Rooms</a>
+                </li>
+                <li>
+                  <a href="/pages/accomodation.html#premium">Premium Room</a>
+                </li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="/pages/dining.html">Dining ▾</a>
+              <ul class="dropdown-menu">
+                <li><a href="/pages/dining.html#restaurant">Restaurant</a></li>
+                <li><a href="/pages/dining.html#bar">Bar</a></li>
+                <li><a href="/pages/dining.html#cafe">Cafe</a></li>
+              </ul>
+            </li>
+            <li><a href="/pages/facilities.html">Facilities</a></li>
+
+            <li><a href="/pages/gallery.html">Gallery</a></li>
+            <li><a href="/pages/contact.html">Contact us</a></li>
+          </ul>
+        </nav>
+        <i class="fa fa-bars burger" id="burger"></i>
+        <!-- Mobile Menu -->
+        <nav class="menu-panel" id="menu-panel-id">
+          <button class="close-btn" id="btn-close">&times;</button>
+          <ul>
+            <li><a href="/index.html">Home</a></li>
+            <li><a href="/pages/accomodation.html">Accommodation</a></li>
+            <li><a href="/pages/dining.html">Dining</a></li>
+            <li><a href="/pages/facilities.html">Facilities</a></li>
+            <li><a href="/pages/gallery.html">Gallery</a></li>
+            <li><a href="/pages/contact.html">Contact</a></li>
+          </ul>
+        </nav>
+      </header>
+      <div class="hero-caption" id="home">
+        <h1>CONTACT US</h1>
+        <p>
+          We are here to help you. Reach out for any inquiries or reservations,
+          and we will get back to you promptly.
+        </p>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section class="contact-section" id="contact">
+      <div class="contact-info">
+        <h2>Let’s Connect</h2>
+        <p><i class="fa fa-map-marker-alt"></i> 123 Sapphire Street, Colombo</p>
+        <p><i class="fa fa-phone"></i> +94 77 123 4567</p>
+        <p><i class="fa fa-envelope"></i> info@sapphirecrown.com</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+      <form>
+        <input type="text" placeholder="Your Name" required />
+        <input type="email" placeholder="Your Email" required />
+        <textarea placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+
+    <footer>
+      <div class="footer-container">
+        <!-- Logo + Contact -->
+        <div class="footer-logo">
+          <img src="/assets/images/logo.png" alt="Hotel Logo" />
+          <h2>Sapphire Crown</h2>
+          <p>
+            Sapphire crown<br />
+            Colombo Road, Hikkaduwa,Galle, Sri Lanka<br />
+            Tel: +94 342228113<br />
+            <a href="mailto:info@royalpalms.lk">info@rSapphireCrown.lk</a>
+          </p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+
+        <!-- Navigation -->
+        <div>
+          <h3>Navigation</h3>
+          <ul>
+            <li><a href="/index.html">Home</a></li>
+
+            <li><a href="/pages/accomodation.html">Accommodation</a></li>
+            <li><a href="/pages/dining.html">Dining</a></li>
+            <li><a href="/pages/facilities.html">Facilities</a></li>
+            <li><a href="#">Rates & Special Offers</a></li>
+            <li><a href="/pages/gallery.html">Gallery</a></li>
+            <li><a href="/pages/contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <!-- Our Hotels -->
+        <div>
+          <h3>Our Hotels</h3>
+          <ul>
+            <li><a href="#">Hillwood Hotels</a></li>
+            <li><a href="#">Fair View Hotel</a></li>
+            <li><a href="#">Owinmo Hotel</a></li>
+          </ul>
+        </div>
+
+        <!-- Useful Links + Newsletter -->
+        <div>
+          <h3>Useful Links</h3>
+          <ul>
+            <li><a href="#">Terms & Conditions</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+          <br />
+          <div class="newsletter">
+            <h3 style="color: #ffffff; margin-top: 20px">Signup for</h3>
+            <p>Special Offers & Newsletters</p>
+            <form>
+              <input type="email" placeholder="Enter your email" />
+              <button type="submit">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        © 2025 Hotel Sapphire Crown, Sri Lanka. All Rights Reserved.<br />
+        Concept & Design by Piyumalsha
+      </div>
+    </footer>
+
+    <script>
+      // Mobile Menu
+      const burger = document.getElementById("burger");
+      const menuPanel = document.getElementById("menu-panel-id");
+      const closeBtn = document.getElementById("btn-close");
+
+      burger.addEventListener("click", () => {
+        menuPanel.classList.add("open");
+      });
+      closeBtn.addEventListener("click", () => {
+        menuPanel.classList.remove("open");
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        let currentSlide = 0;
+        const slides = document.querySelectorAll(".slideshow .slide");
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+          slides.forEach((slide, i) => {
+            slide.classList.remove("active");
+            if (i === index) {
+              slide.classList.add("active");
+            }
+          });
+        }
+
+        function nextSlide() {
+          currentSlide = (currentSlide + 1) % totalSlides;
+          showSlide(currentSlide);
+        }
+
+        // Show first slide
+        showSlide(currentSlide);
+
+        // Change slide every 6 seconds
+        setInterval(nextSlide, 3000);
+      });
+    </script>
+  </body>
+</html>

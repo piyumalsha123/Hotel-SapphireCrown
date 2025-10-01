@@ -1,0 +1,1770 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sapphire Crown</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        margin: 0;
+        color: white;
+        scroll-behavior: smooth;
+        background: #000;
+      }
+
+      /* HERO SECTION */
+      .hero-section {
+        position: relative;
+        height: 100vh;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      .slideshow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -2;
+      }
+
+      .slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        transition: opacity 1.5s ease-in-out;
+      }
+
+      .slide.active {
+        opacity: 1;
+      }
+
+      .video-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: -1;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+        background: rgba(0, 0, 0, 0.85);
+        color: #fff;
+        position: relative;
+        z-index: 10;
+        font-family: "Poppins", sans-serif; /* Ensure header texts use Poppins */
+      }
+
+      .logo-container {
+        font-family: "Poppins", sans-serif;
+        font-weight: lighter;
+        display: flex;
+        align-items: center;
+        margin-right: 200px;
+      }
+
+      .logo {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        margin-right: 12px;
+      }
+
+      .logo-container img.logo {
+        width: 50px;
+        height: auto;
+      }
+      .logo-container h3 {
+        font-size: 1.2rem;
+        color: #ffffff;
+        font-family: "Poppins", sans-serif;
+      }
+
+      /* NAVIGATION */
+      .navigation {
+        flex: 1;
+        margin-left: 50px;
+      }
+      .nav-links {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        gap: 20px;
+      }
+      .nav-links li {
+        margin-left: 15px;
+        margin-right: 0;
+        position: relative;
+      }
+      .nav-links li a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: 500;
+        transition: color 0.3s ease;
+        font-family: "Poppins", sans-serif;
+      }
+      .nav-links li a:hover {
+        color: #f0c040;
+      }
+
+      /* Dropdown */
+      .dropdown {
+        position: relative;
+      }
+      .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: rgba(0, 0, 0, 0.9);
+        list-style: none;
+        padding: 10px 0;
+        min-width: 180px;
+        border-radius: 5px;
+        z-index: 10;
+        font-family: "Poppins", sans-serif;
+      }
+      .dropdown-menu li a {
+        padding: 10px 15px;
+        display: block;
+        white-space: nowrap;
+      }
+      .dropdown:hover .dropdown-menu {
+        display: block;
+      }
+
+      /* Burger */
+      .burger {
+        font-size: 1.8rem;
+        cursor: pointer;
+        display: none;
+        color: #fff;
+      }
+
+      /* Smooth dropdown animation for desktop */
+      .dropdown-menu {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+      }
+
+      .dropdown:hover .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      header.scrolled {
+        background: rgba(0, 0, 0, 0.95);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        padding: 10px 30px;
+      }
+
+      /* --- Mobile Menu Panel --- */
+      .menu-panel {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 250px;
+        height: 100vh;
+        background: #111;
+        padding: 40px 20px;
+        transition: right 0.3s ease;
+        z-index: 999;
+        overflow-y: auto; /* scrollable */
+      }
+
+      .menu-panel::-webkit-scrollbar {
+        width: 6px;
+      }
+      .menu-panel::-webkit-scrollbar-thumb {
+        background: #555;
+        border-radius: 3px;
+      }
+
+      .menu-panel.open {
+        right: 0;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 2rem;
+        background: none;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      .menu-panel ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .menu-panel ul li {
+        margin-bottom: 15px;
+      }
+
+      /* Main panel links */
+      .menu-panel ul li a {
+        display: block;
+        padding: 12px 20px;
+        text-decoration: none;
+        color: #fff; /* default text color */
+        transition: color 0.3s ease, background-color 0.3s ease;
+      }
+
+      /* Hover effect same as nav-links */
+      .menu-panel ul li a:hover {
+        color: #f0c040; /* same hover color */
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      /* Dropdown submenu items inside panel */
+      .menu-panel .dropdown-menu-panel li a {
+        padding: 10px 20px;
+        color: #fff;
+        transition: color 0.3s ease, background-color 0.3s ease;
+      }
+
+      /* Match hover style */
+      .menu-panel .dropdown-menu-panel li a:hover {
+        color: #f0c040;
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .menu-panel .arrow {
+        transition: transform 0.4s ease;
+        font-size: 1.1rem;
+      }
+
+      .menu-panel .dropdown-panel.open .arrow {
+        transform: rotate(90deg);
+      }
+
+      .menu-panel .dropdown-panel.open .dropdown-menu-panel {
+        padding: 10px 0;
+        max-height: 500px;
+      }
+      /* Close button */
+      .close-btn {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 2rem;
+        background: none;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      .hero-caption {
+        position: relative;
+        z-index: 1;
+        height: calc(100vh - 60px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .hero-caption h1 {
+        font-size: 3rem;
+        margin-bottom: 1px;
+      }
+
+      .hero-caption p {
+        font-family: "Poppins", sans-serif;
+        font-weight: lighter;
+        font-size: 1.2rem;
+        max-width: 600px;
+      }
+      /* Second page */
+      .content-section {
+        background: #000000;
+        color: white;
+        padding: 80px 20px;
+      }
+
+      .content-section h1 {
+        margin-left: 50px;
+        text-align: left;
+        font-size: 2rem;
+        font-weight: 800;
+        transform: translateY(30px);
+        animation: fadeUp 1s forwards;
+        animation-delay: 0.5s;
+      }
+
+      .content-section p {
+        margin-left: 40px;
+        margin-right: 40px;
+        text-align: justify;
+        font-family: "Poppins", sans-serif;
+        font-weight: lighter;
+        line-height: 1.6;
+        transform: translateY(30px);
+        animation: fadeUp 1s forwards;
+        animation-delay: 1s;
+      }
+
+      @keyframes fadeUp {
+        to {
+          opacity: 5;
+          transform: translateY(0);
+        }
+      }
+
+      /* Slider Section */
+      .slides-container {
+        max-width: 1200px;
+        width: 95%;
+        margin: auto;
+      }
+
+      .slider-wrapper {
+        position: relative;
+      }
+
+      .slider-wrapper .image-list {
+        display: grid;
+        gap: 20px;
+        margin-bottom: 30px;
+        font-size: 0;
+        overflow-x: auto;
+        scrollbar-width: none;
+        grid-template-columns: repeat(6, 1fr);
+        scroll-behavior: smooth;
+      }
+
+      .slider-wrapper .image-list .image-item {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        width: 450px; /* wider */
+        height: 250px;
+        object-fit: cover;
+        border-radius: 12px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .slider-wrapper .image-list .image-item:hover {
+        transform: scale(1.03);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+        cursor: pointer;
+      }
+
+      .slider-wrapper .image-list::-webkit-scrollbar {
+        display: none;
+      }
+
+      .slider-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        border: none;
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        z-index: 2;
+      }
+
+      .slider-btn.prev {
+        left: -20px;
+      }
+
+      .slider-btn.next {
+        right: -20px;
+      }
+
+      /* Scrollbar */
+      .slider-scrollbar {
+        height: 4px;
+        background: white;
+        border-radius: 4px;
+        position: relative;
+      }
+
+      .slider-scrollbar .scrollbar-thumb {
+        position: absolute;
+        height: 100%;
+        width: 30%;
+        background: rgb(27, 27, 27);
+        border-radius: inherit;
+        cursor: grab;
+      }
+
+      .scrollbar-thumb:active {
+        cursor: grabbing;
+        height: 8px;
+        top: -2px;
+      }
+
+      /* Accommodation Section */
+      #accommodation {
+        padding: 60px 20px;
+        background: radial-gradient(
+          circle,
+          rgb(160, 151, 153) 0%,
+          rgb(82, 77, 78) 44%,
+          rgb(0, 0, 0) 100%
+        );
+        background-size: 200% 200%;
+        animation: gradientMove 10s ease infinite;
+        text-align: center;
+        color: rgb(0, 0, 0);
+      }
+
+      #accommodation .container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      #accommodation .title {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 1s forwards;
+        animation-delay: 1s;
+      }
+
+      #accommodation .paragraph {
+        font-family: "Poppins", sans-serif;
+        font-weight: lighter;
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 40px;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 1s forwards;
+        animation-delay: 1.5s;
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 5;
+          transform: translateY(0);
+        }
+      }
+
+      /* Scroll-in effect for images */
+      .scroll-appear {
+        opacity: 5;
+        transform: translateY(50px);
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+      }
+
+      .scroll-appear.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Gradient animation */
+      @keyframes gradientMove {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      @media screen and (max-width: 575px) {
+        .room-section {
+          flex-direction: column;
+          text-align: center;
+          padding: 15px;
+        }
+
+        #room-image,
+        #roomluxury-image {
+          order: -1; /* image on top */
+          width: 100%;
+          max-height: 250px; /* optional */
+          margin: 0 auto;
+        }
+
+        #Rooms {
+          width: 100%;
+        }
+      }
+
+      /* Fade-in-up animation */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .btn {
+        display: inline-block;
+        width: 90px;
+        padding: 12px 24px;
+        margin-top: 20px;
+        background: #b4b0b0;
+        color: rgb(5, 5, 5);
+        font-weight: bold;
+        text-decoration: none;
+        border-radius: 12px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .room-text .btn {
+        display: block;
+        margin-left: 0;
+        margin-top: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .navigation {
+          display: none;
+        }
+        .hero-caption h1 {
+          font-size: 2rem;
+        }
+        .hero-caption p {
+          font-size: 1rem;
+        }
+        #accommodation .title {
+          font-size: 1.6rem;
+        }
+
+        #accommodation .paragraph {
+          font-size: 0.95rem;
+        }
+
+        #Rooms h1 {
+          font-size: 3rem;
+        }
+
+        .room-section {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .room-image {
+          flex: 1 1 100%;
+          max-width: 100%;
+          margin: 0 auto 2px auto;
+          max-height: 400px;
+          order: -1;
+        }
+
+        .room-text {
+          flex: 1 1 100%;
+          max-width: 100%;
+          margin: 0 auto;
+          order: 0;
+          text-align: center;
+          padding: 10px 20px;
+        }
+
+        .room-text h1 {
+          font-size: 1.8rem;
+        }
+
+        .room-text p,
+        .room-text ul li {
+          font-size: 1rem;
+          line-height: 1.6;
+        }
+        .facilities-header h2 {
+          font-size: 2rem;
+        }
+
+        .facility-item {
+          height: 250px;
+        }
+
+        .facility-overlay h3 {
+          font-size: 1.2rem;
+        }
+
+        .facility-overlay p {
+          font-size: 0.9rem;
+        }
+
+        .gallery {
+          grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+          grid-auto-rows: 150px;
+        }
+        .footer-container {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media screen and (max-width: 855px) {
+        .logo-container {
+          margin-right: 0;
+        }
+        .logo-container h3 {
+          font-size: 1rem;
+        }
+        .logo-container img.logo {
+          width: 40px;
+          height: auto;
+        }
+        .nav-links {
+          display: none;
+        }
+        .burger {
+          display: block;
+        }
+      }
+
+      @media screen and (max-width: 1100px) {
+        .logo-container {
+          margin-right: 0;
+        }
+        .nav-links li {
+          margin-left: 1px;
+        }
+      }
+      .room-section {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        padding: 60px 20px;
+        color: white;
+        background: linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 1) 0%,
+          rgb(59, 59, 59) 50%,
+          rgb(82, 82, 82) 76%,
+          rgb(100, 99, 99) 99%
+        );
+      }
+
+      .room-text {
+        flex: 1 1 400px;
+        max-width: 600px;
+        padding: 20px;
+      }
+
+      .room-text h1 {
+        font-family: "Arial", serif;
+        font-weight: 700;
+        font-size: 2.2rem;
+        margin-bottom: 15px;
+        text-align: left;
+      }
+
+      .room-text p {
+        font-family: "Poppins", sans-serif;
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        text-align: left;
+      }
+
+      .room-text ul {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 20px 0;
+        text-align: left;
+      }
+
+      .room-text ul li {
+        font-family: "Poppins", sans-serif;
+        font-size: 1rem;
+        line-height: 32px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-align: left;
+      }
+
+      .slider-wrapper .image-list .image-item {
+        width: 325px;
+        height: 550px;
+        object-fit: cover;
+        border-radius: 12px;
+        transition: transform 0.5s ease, box-shadow 0.5s ease;
+      }
+
+      .room-image {
+        flex: 1 1 50%;
+        max-width: 600px;
+        width: 100%;
+        height: 500px;
+        border-radius: 20px;
+        object-fit: cover;
+      }
+
+      /* animations */
+      .fade-in-up {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s ease-in-out;
+      }
+      .fade-in-up.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Fade In Left */
+      .fade-in-left {
+        opacity: 0;
+        transform: translateX(-50px);
+        transition: all 0.8s ease-in-out;
+      }
+      .fade-in-left.show {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      /* Fade In Right */
+      .fade-in-right {
+        opacity: 0;
+        transform: translateX(50px);
+        transition: all 0.8s ease-in-out;
+      }
+      .fade-in-right.show {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      /* Zoom In */
+      .zoom-in {
+        opacity: 0;
+        transform: scale(0.8);
+        transition: all 0.8s ease-in-out;
+      }
+      .zoom-in.show {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      /* Facilities Section */
+      .facilities-section {
+        padding: 60px 20px;
+        background: linear-gradient(180deg, #000000, #2f2f2f);
+        color: white;
+      }
+
+      .facilities-header {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+
+      .facilities-header h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+      }
+
+      .facilities-header p {
+        font-family: "Poppins", sans-serif;
+        font-weight: lighter;
+        font-size: 1.1rem;
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      /* Grid Layout */
+      .facilities-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .facility-item {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        height: 300px;
+        cursor: pointer;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+        transition: transform 0.5s ease, box-shadow 0.5s ease;
+      }
+
+      .facility-item:hover {
+        transform: scale(1.05);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.8);
+      }
+
+      .facility-item img,
+      .facility-item video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* Overlay Text */
+      .facility-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 20px;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+        color: white;
+        transition: all 0.4s ease;
+      }
+
+      .facility-overlay h3 {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+      }
+
+      .facility-overlay p {
+        font-size: 0.95rem;
+        line-height: 1.4;
+      }
+
+      /* Hover Effect Overlay */
+      .facility-item:hover .facility-overlay {
+        background: rgba(0, 0, 0, 0.6);
+      }
+
+      /* Facilities Section */
+      .facilities-section {
+        padding: 60px 20px;
+        background: #01011d;
+        color: white;
+      }
+
+      .facilities-header {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+
+      .facilities-header h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+      }
+
+      .facilities-header p {
+        font-family: "Poppins", sans-serif;
+        font-weight: lighter;
+        font-size: 1.1rem;
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      /* Grid Layout */
+      .facilities-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .facility-item {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        height: 300px;
+        cursor: pointer;
+        box-shadow: 20px 20px 25px rgba(0, 0, 0, 0.6);
+        transition: transform 0.5s ease, box-shadow 0.5s ease;
+      }
+
+      .facility-item:hover {
+        transform: scale(1.05);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.8);
+      }
+
+      .facility-item img,
+      .facility-item video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .facility-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 20px;
+        background: linear-gradient(to top, #011830, transparent);
+        color: rgb(253, 250, 250);
+        font-family: "Poppins", sans-serif;
+        transition: all 0.4s ease;
+      }
+
+      .facility-overlay h3 {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+      }
+
+      .facility-overlay p {
+        font-size: 0.95rem;
+        line-height: 1.4;
+      }
+
+      .facility-item:hover .facility-overlay {
+        background: rgba(0, 0, 0, 0.6);
+      }
+
+      footer {
+        background: #000000;
+        color: #aaa;
+        text-align: center;
+        padding: 30px;
+        margin-top: 60px;
+      }
+
+      .gallery-section {
+        padding: 60px 5%;
+        text-align: center;
+        background: #ffffff;
+        background: linear-gradient(
+          0deg,
+          rgba(255, 255, 255, 1) 0%,
+          rgba(171, 171, 171, 1) 100%
+        );
+      }
+
+      .gallery-section h2 {
+        font-family: "sserif";
+        font-size: 2.5rem;
+        font-weight: 2000;
+        margin-bottom: 40px;
+        color: #252424;
+      }
+
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        grid-auto-rows: 200px;
+        gap: 15px;
+        grid-auto-flow: dense;
+      }
+
+      .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 15px;
+      }
+
+      .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease, filter 0.4s ease;
+      }
+
+      .gallery-item:hover img {
+        transform: scale(1.1);
+        filter: brightness(80%);
+      }
+
+      .gallery-item.wide {
+        grid-column: span 2;
+      }
+      .gallery-item.tall {
+        grid-row: span 2;
+      }
+      .gallery-item.big {
+        grid-column: span 2;
+        grid-row: span 2;
+      }
+
+      /* Dining Section */
+      .dining-info-section {
+        position: relative;
+        padding: 100px 20px;
+        color: #fff;
+        text-align: center;
+        overflow: hidden;
+      }
+
+      .dining-info-section .dining-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -2;
+      }
+
+      .dining-info-section .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.65);
+        z-index: -1;
+      }
+
+      .dining-info-section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 60px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        animation: fadeDown 1.2s ease;
+      }
+
+      .dining-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+      }
+
+      .dining-card {
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        overflow: hidden;
+        backdrop-filter: blur(6px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        transition: transform 0.4s ease;
+        animation: fadeUp 1.5s ease;
+      }
+
+      .dining-card:hover {
+        transform: translateY(-12px) scale(1.05);
+      }
+
+      .dining-card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .dining-card:hover img {
+        transform: scale(1.1);
+      }
+
+      .card-text {
+        padding: 20px;
+      }
+
+      .card-text h3 {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: #fff;
+      }
+
+      .card-text p {
+        font-family: "Poppins", sans-serif;
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #eee;
+      }
+
+      /* Animations */
+      @keyframes fadeDown {
+        from {
+          opacity: 0;
+          transform: translateY(-40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      /* Footer */
+      footer {
+        background: #0d0d0d;
+        color: #ddd;
+        font-family: "serif";
+        padding: 50px 20px 20px;
+        text-align: left;
+      }
+
+      .footer-container {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 40px;
+        max-width: 1200px;
+        margin: auto;
+      }
+
+      /* Logo & Contact */
+      .footer-logo img {
+        width: 140px;
+        margin-bottom: 10px;
+      }
+
+      .footer-logo h2 {
+        font-size: 20px;
+        margin: 10px 0;
+        font-weight: 600;
+      }
+
+      .footer-logo p {
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .footer-logo a {
+        color: #ffffff;
+        text-decoration: none;
+      }
+
+      /* Section Titles */
+      .footer-container h3 {
+        font-size: 16px;
+        margin-bottom: 15px;
+        color: #fff;
+      }
+
+      .footer-container ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .footer-container ul li {
+        margin: 8px 0;
+      }
+
+      .footer-container ul li a {
+        color: #bbb;
+        text-decoration: none;
+        transition: 0.3s;
+      }
+
+      .footer-container ul li a:hover {
+        color: #fcb900;
+      }
+
+      /* Newsletter */
+      .newsletter p {
+        font-size: 14px;
+        margin-bottom: 10px;
+        color: #ddd;
+      }
+
+      .newsletter input[type="email"] {
+        padding: 10px;
+        border: none;
+        outline: none;
+        width: 150px;
+        border-radius: 12px;
+        background: #222;
+        color: #fff;
+      }
+
+      .newsletter button {
+        padding: 10px 15px;
+        background: #000000;
+        width: 100px;
+        border-radius: 12px;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .newsletter button:hover {
+        background: #fcb900;
+        color: #111;
+      }
+
+      /* Social Icons */
+      .social-icons {
+        margin-top: 15px;
+      }
+
+      .social-icons a {
+        display: inline-block;
+        margin-right: 12px;
+        font-size: 15px;
+        color: #ddd;
+        transition: 0.3s;
+      }
+
+      .social-icons a:hover {
+        color: #fcb900;
+      }
+
+      /* Bottom Bar */
+      .footer-bottom {
+        border-top: 1px solid #333;
+        text-align: center;
+        padding: 15px;
+        font-size: 13px;
+        margin-top: 30px;
+        color: #aaa;
+      }
+      /* Responsive Footer */
+      @media screen and (max-width: 1024px) {
+        .footer-container {
+          grid-template-columns: 1fr 1fr; /* 2 columns */
+          gap: 30px;
+        }
+      }
+
+      @media screen and (max-width: 768px) {
+        .footer-container {
+          grid-template-columns: 1fr; /* 1 column */
+          text-align: center;
+        }
+
+        .footer-logo {
+          text-align: center;
+        }
+
+        .footer-container h3 {
+          margin-top: 20px;
+        }
+
+        .newsletter input[type="email"] {
+          width: 70%; /* expand input */
+          margin-bottom: 10px;
+        }
+
+        .newsletter button {
+          width: auto;
+          display: inline-block;
+        }
+
+        .social-icons {
+          text-align: center;
+          margin-top: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="slideshow">
+        <div
+          class="slide active"
+          style="background-image: url('/assets/images/gallery8.png')"
+        ></div>
+        <div
+          class="slide"
+          style="background-image: url('/assets/images/gallery3.png')"
+        ></div>
+        <div
+          class="slide"
+          style="background-image: url('/assets/images/gallery5.png')"
+        ></div>
+      </div>
+      <div class="video-overlay"></div>
+
+      <header>
+        <div class="logo-container">
+          <img class="logo" src="/assets/images/logo.png" alt="logo" />
+          <h3>Sapphire Crown</h3>
+        </div>
+        <nav class="navigation">
+          <ul class="nav-links">
+            <li><a href="/index.html">Home</a></li>
+            <li class="dropdown">
+              <a href="/pages/accomodation.html">Accommodation ▾</a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="/pages/accomodation.html#executive"
+                    >Executive Room</a
+                  >
+                </li>
+                <li>
+                  <a href="/pages/accomodation.html#luxury">Luxury Rooms</a>
+                </li>
+                <li>
+                  <a href="/pages/accomodation.html#premium">Premium Room</a>
+                </li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="/pages/dining.html">Dining ▾</a>
+              <ul class="dropdown-menu">
+                <li><a href="/pages/dining.html#restaurant">Restaurant</a></li>
+                <li><a href="/pages/dining.html#bar">Bar</a></li>
+                <li><a href="/pages/dining.html#cafe">Cafe</a></li>
+              </ul>
+            </li>
+            <li><a href="/pages/facilities.html">Facilities</a></li>
+            <li><a href="#offers">Rates & Offers</a></li>
+            <li><a href="/pages/gallery.html">Gallery</a></li>
+            <li><a href="/pages/contact.html">Contact us</a></li>
+          </ul>
+        </nav>
+        <i class="fa fa-bars burger" id="burger"></i>
+        <!-- Mobile Menu -->
+        <nav class="menu-panel" id="menu-panel-id">
+          <button class="close-btn" id="btn-close">&times;</button>
+          <ul>
+            <li><a href="/index.html">Home</a></li>
+            <li><a href="/pages/accomodation.html">Accommodation</a></li>
+            <li><a href="/pages/dining.html">Dining</a></li>
+            <li><a href="/pages/facilities.html">Facilities</a></li>
+            <li><a href="/pages/gallery.html">Gallery</a></li>
+            <li><a href="/pages/contact.html">Contact</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <div class="hero-caption" id="home">
+        <h1>WELCOME TO SAPPHIRE CROWN</h1>
+        <p>Where comfort meets luxury — your perfect escape awaits.</p>
+      </div>
+    </section>
+    <!-- Home Content -->
+    <section class="content-section" id="home">
+      <h1>ABOUT US,</h1>
+      <p>
+        Welcome to Sapphire Crown, where luxury meets comfort. From the moment
+        you arrive, experience impeccable service, elegant interiors, and a
+        warm, inviting atmosphere designed for relaxation and joy. Every detail
+        of your stay is carefully crafted to ensure an unforgettable experience,
+        whether it’s in our beautifully appointed rooms, exquisite dining
+        options, or serene lounge spaces. Indulge in comfort, savor delightful
+        moments, and create memories that last a lifetime. At Sapphire Crown, we
+        believe every guest deserves a touch of royalty. Step in, unwind, and
+        let us pamper you—the perfect escape awaits.
+      </p>
+    </section>
+
+    <!-- Accommodation Section -->
+    <section id="accommodation" class="accomodation-1">
+      <div class="container">
+        <h2 class="title">ACCOMODATION</h2>
+        <p class="paragraph">
+          ✨ Experience ultimate comfort at Sapphire Crown’s
+          accommodations—where every room blends elegance, modern amenities, and
+          a serene atmosphere. Whether for relaxation or business, our
+          thoughtfully designed spaces provide a peaceful retreat, ensuring your
+          stay is restful, memorable, and truly luxurious. Your perfect home
+          away from home awaits.
+        </p>
+      </div>
+      <div class="slides-container">
+        <div class="slider-wrapper">
+          <button class="slider-btn prev">&#10094;</button>
+          <div class="image-list">
+            <img
+              src="/assets/images/ExecutiveRoom.png"
+              alt="img-1"
+              class="image-item scroll-appear zoom-in"
+            />
+            <img
+              src="/assets/images/accomodationslide1.png"
+              alt="img-2"
+              class="image-item scroll-appear zoom-in"
+            />
+            <img
+              src="/assets/images/accomodationslide3.png"
+              alt="img-3"
+              class="image-item scroll-appear zoom-in"
+            />
+            <img
+              src="/assets/images/washroom.png"
+              alt="img-4"
+              class="image-item scroll-appear zoom-in"
+            />
+            <img
+              src="/assets/images/accomodationslide4.png"
+              alt="img-5"
+              class="image-item scroll-appear zoom-in"
+            />
+            <img
+              src="/assets/images/hospitality.png"
+              alt="img-6"
+              class="image-item scroll-appear zoom-in"
+            />
+          </div>
+          <button class="slider-btn next">&#10095;</button>
+        </div>
+        <div class="slider-scrollbar">
+          <div class="scrollbar-thumb"></div>
+        </div>
+      </div>
+    </section>
+    <!-- Dining Section -->
+    <section id="dining" class="dining-info-section">
+      <video class="dining-bg" autoplay muted loop playsinline>
+        <source src="/assets/videos/DinningVideo.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div class="overlay"></div>
+
+      <div class="dining-content">
+        <h2>Dining Experiences</h2>
+        <div class="dining-cards">
+          <!-- Restaurant Card -->
+          <div class="dining-card" id="restaurant">
+            <div class="card-text">
+              <h3>Fine Dining Restaurant</h3>
+              <p>
+                Indulge in gourmet dishes crafted by world-class chefs, blending
+                international flavors with local inspiration for an
+                unforgettable dining experience.
+              </p>
+            </div>
+          </div>
+
+          <!-- Bar Card -->
+          <div class="dining-card" id="bar">
+            <div class="card-text">
+              <h3>Luxury Bar</h3>
+              <p>
+                Sip on signature cocktails and premium spirits in a vibrant
+                atmosphere, perfect for relaxing evenings or lively gatherings
+                with friends.
+              </p>
+            </div>
+          </div>
+
+          <!-- Café Card -->
+          <div class="dining-card" id="cafe">
+            <div class="card-text">
+              <h3>Cozy Café</h3>
+              <p>
+                Enjoy freshly brewed coffee, homemade pastries, and light bites
+                in a warm, inviting setting that feels like your second home.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Facilities Section -->
+    <section id="facilities" class="facilities-section">
+      <div class="facilities-header">
+        <h2>FACILITIES</h2>
+        <p>
+          Indulge in world-class amenities crafted for comfort, luxury, and
+          convenience.
+        </p>
+      </div>
+
+      <div class="facilities-grid">
+        <!-- Video Facility Item -->
+        <div class="facility-item">
+          <img src="/assets/images/pool.png" alt="Swimming pool" />
+          <div class="facility-overlay">
+            <h3>Swimming Pool</h3>
+            <p>Relax and rejuvenate in our luxurious swimming pool area.</p>
+          </div>
+        </div>
+
+        <!-- Image Facility Item -->
+        <div class="facility-item">
+          <img src="/assets/images/fitnesscenter.png" alt="Fitness Center" />
+          <div class="facility-overlay">
+            <h3>Fitness Center</h3>
+            <p>Fully equipped gym to maintain your workout routine.</p>
+          </div>
+        </div>
+
+        <div class="facility-item">
+          <img src="/assets/images/spa.png " alt="Spa & Wellness" />
+          <div class="facility-overlay">
+            <h3>Spa & Wellness</h3>
+            <p>
+              Rejuvenate your mind and body with our luxurious spa treatments.
+            </p>
+          </div>
+        </div>
+
+        <div class="facility-item">
+          <img src="/assets/images/freewifi.png" alt="Free Wi-Fi" />
+          <div class="facility-overlay">
+            <h3>Free Wi-Fi</h3>
+            <p>High-speed internet available throughout the hotel.</p>
+          </div>
+        </div>
+
+        <div class="facility-item">
+          <div class="facility-item">
+          <img src="/assets/images/restaurant.png" alt="Dinning" />
+          <div class="facility-overlay">
+            <h3>Restaurant & Bar</h3>
+            <p>Enjoy exquisite dishes and premium beverages in style.</p>
+          </div>
+        </div>
+
+        <div class="facility-item">
+          <img src="/assets/images/parking.png" alt="Parking" />
+          <div class="facility-overlay">
+            <h3>Parking</h3>
+            <p>Secure and spacious parking for your convenience.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- gallery section -->
+    <section class="gallery-section">
+      <h2>GALLERY</h2>
+      <div class="gallery">
+        <div class="gallery-item big">
+          <img src="/assets/images/gallery1.png" alt="1" />
+        </div>
+        <div class="gallery-item">
+          <img src="/assets/images/gallery2.png" alt="2" />
+        </div>
+        <div class="gallery-item tall">
+          <img src="/assets/images/gallery3.png" alt="3" />
+        </div>
+        <div class="gallery-item wide">
+          <img src="/assets/images/gallery4.png" alt="4" />
+        </div>
+        <div class="gallery-item">
+          <img src="/assets/images/gallery5.png" alt="5" />
+        </div>
+        <div class="gallery-item tall">
+          <img src="/assets/images/gallery6.png" alt="6" />
+        </div>
+        <div class="gallery-item wide">
+          <img src="/assets/images/gallery7.png" alt="7" />
+        </div>
+        <div class="gallery-item">
+          <img src="/assets/images/gallery8.png" alt="8" />
+        </div>
+        <div class="gallery-item big">
+          <img src="/assets/images/accomodationslide2.png" alt="9" />
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-container">
+        <!-- Logo + Contact -->
+        <div class="footer-logo">
+          <img src="/assets/images/logo.png" alt="Hotel Logo" />
+          <h2>Sapphire Crown</h2>
+          <p>
+            Sapphire crown<br />
+            Colombo Road, Hikkaduwa,Galle, Sri Lanka<br />
+            Tel: +94 342228113<br />
+            <a href="mailto:info@royalpalms.lk">info@rSapphireCrown.lk</a>
+          </p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+
+        <!-- Navigation -->
+        <div>
+          <h3>Navigation</h3>
+          <ul>
+            <li><a href="/index.html">Home</a></li>
+
+            <li><a href="/pages/accomodation.html">Accommodation</a></li>
+            <li><a href="/pages/dining.html">Dining</a></li>
+            <li><a href="/pages/facilities.html">Facilities</a></li>
+            <li><a href="#">Rates & Special Offers</a></li>
+            <li><a href="/pages/gallery.html">Gallery</a></li>
+            <li><a href="/pages/contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <!-- Our Hotels -->
+        <div>
+          <h3>Our Hotels</h3>
+          <ul>
+            <li><a href="#">Hillwood Hotels</a></li>
+            <li><a href="#">Fair View Hotel</a></li>
+            <li><a href="#">Owinmo Hotel</a></li>
+          </ul>
+        </div>
+
+        <!-- Useful Links + Newsletter -->
+        <div>
+          <h3>Useful Links</h3>
+          <ul>
+            <li><a href="#">Terms & Conditions</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+          <br />
+          <div class="newsletter">
+            <h3 style="color: #ffffff; margin-top: 20px">Signup for</h3>
+            <p>Special Offers & Newsletters</p>
+            <form>
+              <input type="email" placeholder="Enter your email" />
+              <br />
+              <button type="submit">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        © 2025 Hotel Sapphire Crown, Sri Lanka. All Rights Reserved.<br />
+        Concept & Design by Piyumalsha
+      </div>
+    </footer>
+
+    <script>
+      const burger = document.getElementById("burger");
+      const menuPanel = document.getElementById("menu-panel-id");
+      const closeBtn = document.getElementById("btn-close");
+
+      burger.addEventListener("click", () => menuPanel.classList.add("open"));
+      closeBtn.addEventListener("click", () =>
+        menuPanel.classList.remove("open")
+      );
+      document
+        .querySelectorAll(".menu-panel ul li a")
+        .forEach((link) =>
+          link.addEventListener("click", () =>
+            menuPanel.classList.remove("open")
+          )
+        );
+
+      // Slider
+      const imageList = document.querySelector(".image-list");
+      const prevBtn = document.querySelector(".slider-btn.prev");
+      const nextBtn = document.querySelector(".slider-btn.next");
+      const scrollbarThumb = document.querySelector(".scrollbar-thumb");
+      const scrollbarTrack = document.querySelector(".slider-scrollbar");
+      const scrollAmount = 325 + 18;
+
+      nextBtn.addEventListener("click", () =>
+        imageList.scrollBy({ left: scrollAmount, behavior: "smooth" })
+      );
+      prevBtn.addEventListener("click", () =>
+        imageList.scrollBy({ left: -scrollAmount, behavior: "smooth" })
+      );
+
+      function updateScrollbar() {
+        const maxScrollLeft = imageList.scrollWidth - imageList.clientWidth;
+        const thumbMax =
+          scrollbarTrack.clientWidth - scrollbarThumb.offsetWidth;
+        scrollbarThumb.style.left = `${
+          (imageList.scrollLeft / maxScrollLeft) * thumbMax
+        }px`;
+      }
+      imageList.addEventListener("scroll", updateScrollbar);
+      window.addEventListener("resize", updateScrollbar);
+      updateScrollbar();
+
+      // Scroll-triggered animation
+      const scrollElements = document.querySelectorAll(".scroll-appear");
+      function elementInView(el, offset = 100) {
+        const elementTop = el.getBoundingClientRect().top;
+        return elementTop <= window.innerHeight - offset;
+      }
+
+      function displayScrollElement() {
+        scrollElements.forEach((el) => {
+          if (elementInView(el)) {
+            el.classList.add("visible");
+          }
+        });
+      }
+
+      window.addEventListener("scroll", displayScrollElement);
+      displayScrollElement();
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const elements = document.querySelectorAll(
+          ".fade-in-up, .fade-in-left, .fade-in-right, .zoom-in"
+        );
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("show");
+              }
+            });
+          },
+          { threshold: 0.2 }
+        );
+
+        elements.forEach((el) => observer.observe(el));
+      });
+
+      window.addEventListener("scroll", () => {
+        const header = document.querySelector("header");
+        if (window.scrollY > 50) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        let currentSlide = 0;
+        const slides = document.querySelectorAll(".slideshow .slide");
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+          slides.forEach((slide, i) => {
+            slide.classList.remove("active");
+            if (i === index) {
+              slide.classList.add("active");
+            }
+          });
+        }
+
+        function nextSlide() {
+          currentSlide = (currentSlide + 1) % totalSlides;
+          showSlide(currentSlide);
+        }
+
+        // Show first slide
+        showSlide(currentSlide);
+
+        // Change slide every 6 seconds
+        setInterval(nextSlide, 3000);
+      });
+    </script>
+  </body>
+</html>
